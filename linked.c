@@ -67,15 +67,13 @@ int main(int argc, char *argv[]) {
 
    start = omp_get_wtime();
 #pragma omp parallel
-   {
 #pragma omp single
-      {
-         struct node *current = p;
-         while (current != NULL) {
+   {
+      struct node *p = head;
+      while (p != NULL) {
 #pragma omp task // just like spawn, this is great for a unpredictable length of task
-            processwork(current);
-            current = current->next;
-         }
+         processwork(p);
+         p = p->next;
       }
    }
    end = omp_get_wtime();
